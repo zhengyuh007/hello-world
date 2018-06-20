@@ -1,1 +1,57 @@
 # This include medium algorithm problems
+
+Maximum XOR of Two Numbers in an Array
+
+    // Version2: Trie Tree + Bit Manipulation (Easy to Understand)
+    // O(n) time and O(n) space
+    public int findMaximumXOR(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        // step<1>: add each number binary representation into trie
+        TrieNode root = new TrieNode();
+        for(int num: nums) {
+            TrieNode curt = root;
+            for(int i = 31; i >= 0; i--) {
+                int digit = (num >> i) & 1;
+                if(curt.children[digit] == null) {
+                    curt.children[digit] = new TrieNode();
+                }
+                curt = curt.children[digit];
+            }
+        }
+        // step<2>: check result in the trie tree
+        int result = Integer.MIN_VALUE;
+        for(int num: nums) {
+            TrieNode curt = root;
+            int sum = 0;
+            for(int i = 31; i >= 0; i--) {
+                int digit = (num >> i) & 1;
+                // note that 1^1 = 0, 0^1 = 1 (1->0, 0->1)
+                // so if tree contains digit ^ 1 then for this position
+                // we can say 1<<i can be added into sum
+                if(curt.children[digit ^ 1] != null) {
+                    sum += (1 << i);
+                    // we move to digit ^ 1 because 1000 > 0111
+                    curt = curt.children[digit ^ 1];
+                }
+                else {
+                    curt = curt.children[digit];
+                }
+            }
+            result = Math.max(result, sum);
+        }
+        return result;
+    }
+    
+    // class to represent Trie Node
+    // note that it has only two state: 0 or 1
+    private class TrieNode {
+        public TrieNode[] children;
+        public TrieNode() {
+            this.children = new TrieNode[2];
+        }
+    }
+    //**************************************************
+    
+//----------------------------------------------------------------------------------------------------------
+
+
