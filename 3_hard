@@ -40,5 +40,19 @@ next[i] = in minimal-cost and lexicographically smallest  path
 Method2: DFS with Memorization + Track Path
 */
 
-// 2018/2/24
 //**********************************************************************************************************************
+
+Palindrome Pairs
+/*
+Divide into 2 parts to solve -> O(n*maxLen*maxLen) time
+constrcut a map to record string -> index
+for each string words[i] from words[0~n-1]
+str1 = words[i].substring(0, j), str2 = words[i].substring(j) where j = 0~words[i].length
+Then there are two cases to be a palindrome by two words
+1. If(str2 is palindrome) word(str1+str2) + str1Reverse
+2. If(str1.length()!=0 && str1 is palindrome) str2Reverse + word(str1+str2)
+note that we check str1.length()!=0 to avoid counting words[i] twice
+*/
+
+//**********************************************************************************************************************
+
